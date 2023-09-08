@@ -133,3 +133,141 @@ async function run() {
 }
 
 run();
+
+
+
+// Insert a new document into the "users" collection
+db.users.insertOne({
+  name: "John Doe",
+  age: 30,
+  email: "john@example.com"
+});
+
+
+
+
+// Find all documents in the "users" collection
+db.users.find();
+
+// Find documents with a specific field value
+db.users.find({ name: "John Doe" });
+
+
+
+
+
+// Update a document with a specific filter
+db.users.updateOne(
+  { name: "John Doe" },
+  { $set: { age: 31 } }
+);
+
+
+
+// Delete a document with a specific filter
+db.users.deleteOne({ name: "John Doe" });
+
+
+
+// Count all documents in the "users" collection
+db.users.count();
+
+
+// Find documents with specific fields only
+db.users.find({}, { name: 1, age: 1 });
+
+// Exclude specific fields from the result
+db.users.find({}, { email: 0 });
+
+// Find documents with age greater than 30 OR email ends with ".com"
+db.users.find({
+  $or: [
+      { age: { $gt: 30 } },
+      { email: /\.com$/ }
+  ]
+});
+
+
+// Sort documents by age in ascending order
+db.users.find().sort({ age: 1 });
+
+// Sort documents by age in descending order
+db.users.find().sort({ age: -1 });
+
+
+// Limit the number of documents returned
+db.users.find().limit(5);
+
+// Skip the first 3 documents and return the rest
+db.users.find().skip(3);
+
+
+
+
+// Create an index on the "name" field
+db.users.createIndex({ name: 1 });
+
+// List all indexes on the "users" collection
+db.users.getIndexes();
+
+
+
+// Calculate the average age of users
+db.users.aggregate([
+  { $group: { _id: null, avgAge: { $avg: "$age" } } }
+]);
+
+
+// Perform a text search for documents containing "MongoDB"
+db.articles.find({ $text: { $search: "MongoDB" } });
+
+
+// Find documents near a specific location
+db.places.find({
+  location: {
+      $near: {
+          $geometry: {
+              type: "Point",
+              coordinates: [longitude, latitude]
+          },
+          $maxDistance: 1000 // in meters
+      }
+  }
+});
+
+
+
+// Calculate the total age of users using map-reduce
+db.users.mapReduce(
+  function () {
+      emit("totalAge", this.age);
+  },
+  function (key, values) {
+      return Array.sum(values);
+  },
+  {
+      out: { inline: 1 }
+  }
+);
+
+
+
+// Start a transaction
+session = db.getMongo().startSession();
+
+session.startTransaction();
+
+try {
+    // Perform multiple operations within the transaction
+    db.collection1.insertOne({});
+    db.collection2.updateOne({}, { $set: { field: value } });
+
+    // Commit the transaction
+    session.commitTransaction();
+} catch (error) {
+    // Handle errors and abort the transaction if necessary
+    session.abortTransaction();
+} finally {
+    // End the session
+    session.endSession();
+}
