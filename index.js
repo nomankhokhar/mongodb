@@ -271,3 +271,22 @@ try {
     // End the session
     session.endSession();
 }
+
+
+mongo // first to Enter bin 
+show dbs // will show all DataBases
+show collections // will show Data Collection
+use nomi // this will create database name nomi if not exist otherwise it will create database in the Mongo
+db.Students.insertOne({name : "Noman",FavCol:"Black"})  // this Create an Object in DB that is Select in Mongose
+db.Students.find() // this will show all Data Inside Students Table/Collections
+db.Personal.insertMany([{name:"Noman"},{name:"Ali"},{name:"NOMI"}]) // this will create many Object into the DataBase
+db.Personal.find({name:"Kanwal"}) // this will find key value data by (" ") inside Bars
+db.Personal.find({gender:"Male"}).limit(1) // this will find only one Data in Personal Field
+db.Personal.findOne({gender:"Male"})  // Upper and this both are same Value
+db.Personal.updateOne({name:"Kanwal"},{$set:{name:"Noman Ali"}}) // this will find and then update the Data in Personal Collecctions$set is method in Mongo
+db.Personal.updateMany({name:"Noman Ali"},{$set:{name:"Allah ko mry Naseeb ma Likh dy Ameen Suma Ameen"}}) // this will Update the Data in Personal Collections
+db.Personal.deleteOne({gender:"Male"}) // this will delete only One in the Collections
+db.Personal.deleteMany({}) // this Will Delete ALL OBJ IN COllections
+db.videos.drop() this will delete collections
+db.dropDatabase();  this will delete existing database
+db.products.updateOne({name:"m 40"},{$set:{brand:"Apple"}})  // prm for find then second prm for brand apple with $ dollar sign
