@@ -290,3 +290,159 @@ db.Personal.deleteMany({}) // this Will Delete ALL OBJ IN COllections
 db.videos.drop() this will delete collections
 db.dropDatabase();  this will delete existing database
 db.products.updateOne({name:"m 40"},{$set:{brand:"Apple"}})  // prm for find then second prm for brand apple with $ dollar sign
+db.books().count() this will return the total record of the Document in the Table
+db.books.find({author : "Noman Ali"}).count()  this will return the total record with author -> { Noman Ali } only
+db.books.find().limit(5)  this will return the total record with Limits prm
+db.books.insertOne({title : "The Way of Noman", author : "Kali Bhai", rating : 9, pages : 800 , genres : ["fantasy"], reviews: [{name : "Ali Khan", body : "Books"}, {name : "kali Khan Ali", body : "Book"} ]})
+db.books.find({rating : {$gt : 8}}) this will find all books greator than 8
+db.books.find({rating : {$gte : 8} , author : "Khan"})    multiple checkpoint to get data
+db.books.find({$and: [{rating : 9} , {author : "Khan"}]}) return data that contain if all of them satify
+db.books.find({$or: [{rating : 9} , {author : "Khan"}]}) return data that one of them satisfy 
+db.books.find({$or : [{pages : {$lt : 9}}]})  this will return all the data that less than the 9 pages
+db.books.find({$or : [{pages : {$lt : 9}} , {pages : {$gt: 10 }}]})  return all the middle data
+db.books.find({rating : {$in : [7]}})   show only in data 
+db.books.find({$or : [{rating : 9} , {rating : 8}]}) above and below are same  
+db.books.find({rating : {$nin : [7,9]}})  this will show all data except  7,9
+db.books.find({$and :[{genres : "fantasy"},{genres : "LOL"} ]})  
+db.books.find({$or :[{genres : "fantasy"},{genres : "LOL"} ]})
+db.books.find({genres : {$all : ["fantasy", "LOL"]}})  this will find genres array "fantasy" "LOL" 
+
+{
+  _id: ObjectId("64fc3f466588f01a4c749ea9"),
+  title: 'The Way of Noman',
+  author: 'Kali Bhai',
+  rating: 9,
+  pages: 800,
+  genres: [ 'fantasy' ],
+  reviews: [
+    { name: 'Ali Khan', body: 'Books' },
+    { name: 'kali Khan Ali', body: 'Book' }
+  ]
+},
+
+db.books.find({"reviews.name" : "Ali Khan"})  this will find in reviews Object Array with name field and return all books
+
+[
+  {
+    _id: ObjectId("64fc3f466588f01a4c749ea9"),
+    title: 'The Way of Noman',
+    author: 'Kali Bhai',
+    rating: 9,
+    pages: 800,
+    genres: [ 'fantasy' ],
+    reviews: [
+      { name: 'Ali Khan', body: 'Books' },
+      { name: 'kali Khan Ali', body: 'Book' }
+    ]
+  }
+]
+
+
+db.books.deleteOne({_id : ObjectId("64fc3f466588f01a4c749ea9")})  this will delete the books that have a id in the Query
+db.books.deleteMany({author: "Noman"})
+db.books.updateOne({_id : ObjectId("64fc3fe06588f01a4c749eab")},  {$set  : {title: "Khan LOL", rating : 9 }  })  this will update the data that contain above Query ID
+db.books.updateMany({ author : "Khan"},  {$set  : {title: "Khan Bhai", rating : 5 }  })   this will return the update the many docs that contain khan and set the docs with right object
+
+db.books.updateOne({ _id: ObjectId("64fc3fe06588f01a4c749eab")} , {$pull : {genres : "Kali"}})   this Query will pull mean remove the data from the JSON Docs
+
+db.books.updateOne({ _id: ObjectId("64fc3fe06588f01a4c749eab")} , {$push : {genres : "Kali"}})  this will add the data in the JSON Data
+
+db.books.updateOne({ _id: ObjectId("64fc3fe06588f01a4c749eab")} , {$push : {genres : {$each : ["Nomi" , "Ali"]} }}) this will add docs All Data into docs with each Docs
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+db.coll.insertOne({name: "Max"})
+db.coll.insert([{name: "Max"}, {name:"Alex"}]) // ordered bulk insert
+db.coll.insert([{name: "Max"}, {name:"Alex"}], {ordered: false}) // unordered bulk insert
+db.coll.insert({date: ISODate()})
+db.coll.insert({name: "Max"}, {"writeConcern": {"w": "majority", "wtimeout": 5000}})
+
+
+
+
+
+db.coll.findOne() // returns a single document
+db.coll.find()    // returns a cursor - show 20 results - "it" to display more
+db.coll.find().pretty()
+db.coll.find({name: "Max", age: 32}) // implicit logical "AND".
+db.coll.find({date: ISODate("2020-09-25T13:57:17.180Z")})
+db.coll.find({name: "Max", age: 32}).explain("executionStats") // or "queryPlanner" or "allPlansExecution"
+db.coll.distinct("name")
+
+// Count
+db.coll.count({age: 32})          // estimation based on collection metadata
+db.coll.estimatedDocumentCount()  // estimation based on collection metadata
+db.coll.countDocuments({age: 32}) // alias for an aggregation pipeline - accurate count
+
+// Comparison
+db.coll.find({"year": {$gt: 1970}})
+db.coll.find({"year": {$gte: 1970}})
+db.coll.find({"year": {$lt: 1970}})
+db.coll.find({"year": {$lte: 1970}})
+db.coll.find({"year": {$ne: 1970}})
+db.coll.find({"year": {$in: [1958, 1959]}})
+db.coll.find({"year": {$nin: [1958, 1959]}})
+
+// Logical
+db.coll.find({name:{$not: {$eq: "Max"}}})
+db.coll.find({$or: [{"year" : 1958}, {"year" : 1959}]})
+db.coll.find({$nor: [{price: 1.99}, {sale: true}]})
+db.coll.find({
+  $and: [
+    {$or: [{qty: {$lt :10}}, {qty :{$gt: 50}}]},
+    {$or: [{sale: true}, {price: {$lt: 5 }}]}
+  ]
+})
+
+// Element
+db.coll.find({name: {$exists: true}})
+db.coll.find({"zipCode": {$type: 2 }})
+db.coll.find({"zipCode": {$type: "string"}})
+
+// Aggregation Pipeline
+db.coll.aggregate([
+  {$match: {status: "A"}},
+  {$group: {_id: "$cust_id", total: {$sum: "$amount"}}},
+  {$sort: {total: -1}}
+])
+
+// Text search with a "text" index
+db.coll.find({$text: {$search: "cake"}}, {score: {$meta: "textScore"}}).sort({score: {$meta: "textScore"}})
+
+// Regex
+db.coll.find({name: /^Max/})   // regex: starts by letter "M"
+db.coll.find({name: /^Max$/i}) // regex case insensitive
+
+// Array
+db.coll.find({tags: {$all: ["Realm", "Charts"]}})
+db.coll.find({field: {$size: 2}}) // impossible to index - prefer storing the size of the array & update it
+db.coll.find({results: {$elemMatch: {product: "xyz", score: {$gte: 8}}}})
+
+// Projections
+db.coll.find({"x": 1}, {"actors": 1})               // actors + _id
+db.coll.find({"x": 1}, {"actors": 1, "_id": 0})     // actors
+db.coll.find({"x": 1}, {"actors": 0, "summary": 0}) // all but "actors" and "summary"
+
+// Sort, skip, limit
+db.coll.find({}).sort({"year": 1, "rating": -1}).skip(10).limit(3)
+
+// Read Concern
+db.coll.find().readConcern("majority")
+
+
