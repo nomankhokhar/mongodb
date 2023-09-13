@@ -20,7 +20,7 @@ const userSchene = new mongoose.Schema({
         max: 100,
         validate: {
             validator: v => v % 2 == 0,
-            message: props => `${props.value } is not an even number`, 
+            message: props => `${props.value} is not an even number`,
         }
     },
 
@@ -33,22 +33,22 @@ const userSchene = new mongoose.Schema({
     createdAt: {
         type: Date,
         default: () => Date.now(),
-        immutable:true
+        immutable: true
     },
 
     updatedAt: {
         type: Date,
         default: () => Date.now(),
     },
-    bestFriend:{
-        type:mongoose.SchemaTypes.ObjectId,
-        ref:"User"
+    bestFriend: {
+        type: mongoose.SchemaTypes.ObjectId,
+        ref: "User"
     },
     hobbies: [String],
     address: addressSchema
 });
 
-userSchene.methods.Hole = function() {
+userSchene.methods.Hole = function () {
     console.log(`Hi. My name is ${this.name}`);
 }
 
