@@ -284,7 +284,7 @@ db.Personal.find({name:"Kanwal"}) // this will find key value data by (" ") insi
 db.Personal.find({gender:"Male"}).limit(1) // this will find only one Data in Personal Field
 db.Personal.findOne({gender:"Male"})  // Upper and this both are same Value
 db.Personal.updateOne({name:"Kanwal"},{$set:{name:"Noman Ali"}}) // this will find and then update the Data in Personal Collecctions$set is method in Mongo
-db.Personal.updateMany({name:"Noman Ali"},{$set:{name:"Allah ko mry Naseeb ma Likh dy Ameen Suma Ameen"}}) // this will Update the Data in Personal Collections
+db.Personal.updateMany({name:"Noman Ali"},{$set:{name:"Allah mry Naseeb ma Likh dy Ameen Suma Ameen"}}) // this will Update the Data in Personal Collections
 db.Personal.deleteOne({gender:"Male"}) // this will delete only One in the Collections
 db.Personal.deleteMany({}) // this Will Delete ALL OBJ IN COllections
 db.videos.drop() this will delete collections
